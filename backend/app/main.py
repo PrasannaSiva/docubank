@@ -1,14 +1,26 @@
-from dotenv import load_dotenv
 import shutil, uuid
+from dotenv import load_dotenv
 from fastapi import UploadFile,FastAPI
 from app.rag.ingest import ingest_pdf
+from pydantic import BaseModel
+from app.rag.chain import answer
+
+
 load_dotenv()
 
 app = FastAPI(title="Docubank API")
 
+class ChatRequest(BaseModel):
+    question: str
+    doc_id: str
+
 @app.get("/health")
 def health():
     return {"status":"ok"}
+
+@app.post("/chat")
+def chat(req:ChatRequest):
+    return answer(req.question, req.doc_id)
 
 @app.post("/upload")
 async def upload(file: UploadFile):
