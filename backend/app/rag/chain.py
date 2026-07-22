@@ -28,6 +28,16 @@ def answer(question:str, doc_id:str) -> dict:
     
     context = "\n\n\n---\n\n\n".join(doc.page_content for doc,_ in results)
     
+    THRESHOLD = 1.4
+
+    print("SCORES:", [round(s, 3) for _, s in results])
+    
+    if not results or results[0][1] > THRESHOLD:
+         return {
+             "answer": "I can't find that information in your document.",
+             "citations": [],
+         }
+    
     citations = [
         {"page": doc.metadata.get("page") , "score": round(float(s),3)}
         for doc,s in results
