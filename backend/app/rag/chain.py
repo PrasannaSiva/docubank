@@ -37,9 +37,9 @@ def answer(question:str, doc_id:str) -> dict:
              "answer": "I can't find that information in your document.",
              "citations": [],
          }
-    
+    # print("citations:---->", results[0])
     citations = [
-        {"page": doc.metadata.get("page") , "score": round(float(s),3)}
+        {"page": doc.metadata.get("page",0)+1 , "score": round(float(s),3),"snippet":doc.page_content[:200].strip()+"..."}
         for doc,s in results
     ]
     
