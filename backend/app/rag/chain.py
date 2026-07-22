@@ -28,7 +28,7 @@ def answer(question:str, doc_id:str) -> dict:
     
     context = "\n\n\n---\n\n\n".join(doc.page_content for doc,_ in results)
     
-    THRESHOLD = 1.4
+    THRESHOLD = 2
 
     print("SCORES:", [round(s, 3) for _, s in results])
     
